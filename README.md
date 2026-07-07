@@ -10,6 +10,7 @@ A professional test automation framework built with Selenium WebDriver and Java.
 - ExtentReports
 - Maven
 - Jenkins CI
+- REST Assured (API Testing)
 
 ## Framework Features
 - Page Object Model for maintainable test structure
@@ -17,6 +18,7 @@ A professional test automation framework built with Selenium WebDriver and Java.
 - Automated screenshots on test failure
 - ExtentReports for visual HTML reporting
 - Jenkins CI integration for automated test execution
+- REST Assured API testing - GET, POST, DELETE requests
 
 ## Test Scenarios
 - Login (valid and invalid credentials)
