@@ -21,10 +21,13 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.annotations.Parameters;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+
 
 public class SeleniumTest {
 
@@ -37,18 +40,27 @@ public class SeleniumTest {
     EmployeePage employeePage;
     LogoutPage logoutPage;
 
+    @Parameters("browser")
     @BeforeClass
-    public void setUp() {
-        ExtentSparkReporter spark = new ExtentSparkReporter("extent-report.html");
-        spark.config().setReportName("EA App Test Report");
+    public void setUp(String browser) {
+        ExtentSparkReporter spark = new ExtentSparkReporter("extent-report-" + browser + ".html");
+        spark.config().setReportName("EA App Test Report - " + browser);
         spark.config().setDocumentTitle("Selenium TestNG Report");
 
         extent = new ExtentReports();
         extent.attachReporter(spark);
-        extent.setSystemInfo("Tester", "Baks");
+        extent.setSystemInfo("Tester", "Bakita");
+        extent.setSystemInfo("Browser", browser);
         extent.setSystemInfo("App", "eaapp.somee.com");
 
-        driver = new ChromeDriver();
+        if (browser.equalsIgnoreCase("chrome")) {
+            driver = new ChromeDriver();
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            driver = new FirefoxDriver();
+        } else if (browser.equalsIgnoreCase("edge")) {
+            driver = new EdgeDriver();
+        }
+
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.navigate().to("http://eaapp.somee.com/");
 
@@ -83,7 +95,7 @@ public class SeleniumTest {
             test.pass("Login failed as expected");
             driver.navigate().to("http://eaapp.somee.com/");
         }
-    }
+    }                                                                                                                                 
 
     @Test(priority = 2, dependsOnMethods = "login")
     public void createUser() {
@@ -141,5 +153,5 @@ public class SeleniumTest {
     public void tearDown() {
         extent.flush();
         if (driver != null) driver.quit();
-    }
+   }
 }
